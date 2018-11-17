@@ -7,11 +7,12 @@
 
 (function () {
   
-    Office.initialize = function (reason) {
+    Office.onReady()
+    .then(function() {
 
         //If you need to initialize something you can do so here. 
 
-    };
+    });
 })();
 
 function toggleProtection(args) {            

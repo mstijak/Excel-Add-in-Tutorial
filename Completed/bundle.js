@@ -54,7 +54,8 @@
 	__webpack_require__(1);
 
 	(function () {
-	    Office.initialize = function (reason) {
+
+	    Office.onReady().then(function () {
 	        $(document).ready(function () {
 
 	            if (!Office.context.requirements.isSetSupported('ExcelApi', 1.7)) {
@@ -68,7 +69,24 @@
 	            $('#freeze-header').click(freezeHeader);
 	            $('#open-dialog').click(openDialog);
 	        });
-	    };
+	    });
+
+	    // Office.initialize = function (reason) {
+	    //     $(document).ready(function () {
+
+	    //         if (!Office.context.requirements.isSetSupported('ExcelApi', 1.7)) {
+	    //             console.log('Sorry. The tutorial add-in uses Excel.js APIs that are not available in your version of Office.');
+	    //         }
+
+	    //         $('#create-table').click(createTable);
+	    //         $('#filter-table').click(filterTable);
+	    //         $('#sort-table').click(sortTable);
+	    //         $('#create-chart').click(createChart);
+	    //         $('#freeze-header').click(freezeHeader);
+	    //         $('#open-dialog').click(openDialog);
+
+	    //     });
+	    // };
 
 	    function createTable() {
 	        Excel.run(function (context) {
@@ -201,11 +219,17 @@
 
 	(function () {
 
-	    Office.initialize = function (reason) {
+	    Office.onReady().then(function () {
 
 	        //If you need to initialize something you can do so here. 
 
-	    };
+	    });
+
+	    // Office.initialize = function (reason) {
+
+	    //     //If you need to initialize something you can do so here. 
+
+	    // };
 	})();
 
 	function toggleProtection(args) {

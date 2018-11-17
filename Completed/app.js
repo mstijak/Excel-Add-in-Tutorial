@@ -8,33 +8,35 @@
 require('./function-file/function-file.js');
 
 (function () {
-    Office.initialize = function (reason) {
-        $(document).ready(function () {
 
-            if (!Office.context.requirements.isSetSupported('ExcelApi', 1.7)) {
-                console.log('Sorry. The tutorial add-in uses Excel.js APIs that are not available in your version of Office.');
-            } 
-            
-            $('#create-table').click(createTable);
-            $('#filter-table').click(filterTable);
-            $('#sort-table').click(sortTable);
-            $('#create-chart').click(createChart);
-            $('#freeze-header').click(freezeHeader);
-            $('#open-dialog').click(openDialog);
-        
+	Office.onReady()
+	    .then(function() {
+	        $(document).ready(function () {
+
+                if (!Office.context.requirements.isSetSupported('ExcelApi', 1.7)) {
+                    console.log('Sorry. The tutorial add-in uses Excel.js APIs that are not available in your version of Office.');
+                }
+
+                $('#create-table').click(createTable);
+                $('#filter-table').click(filterTable);
+                $('#sort-table').click(sortTable);
+                $('#create-chart').click(createChart);
+                $('#freeze-header').click(freezeHeader);
+                $('#open-dialog').click(openDialog);
+
         });
-    };
+    });
 
     function createTable() {
         Excel.run(function (context) {
-            
+
             const currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
             const expensesTable = currentWorksheet.tables.add("A1:D1", true /*hasHeaders*/);
             expensesTable.name = "ExpensesTable";
 
-            expensesTable.getHeaderRowRange().values = 
+            expensesTable.getHeaderRowRange().values =
                 [["Date", "Merchant", "Category", "Amount"]];
-    
+
             expensesTable.rows.add(null /*add at the end*/, [
                 ["1/1/2017", "The Phone Company", "Communications", "120"],
                 ["1/2/2017", "Northwind Electric Cars", "Transportation", "142.33"],
@@ -61,7 +63,7 @@ require('./function-file/function-file.js');
 
     function filterTable() {
         Excel.run(function (context) {
-            
+
             const currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
             const expensesTable = currentWorksheet.tables.getItem('ExpensesTable');
             const categoryFilter = expensesTable.columns.getItem('Category').filter;
@@ -79,16 +81,16 @@ require('./function-file/function-file.js');
 
     function sortTable() {
         Excel.run(function (context) {
-            
+
             const currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
             const expensesTable = currentWorksheet.tables.getItem('ExpensesTable');
             const sortFields = [
-                { 
+                {
                     key: 1,            // Merchant column
                     ascending: false,
                 }
             ];
-        
+
             expensesTable.sort.apply(sortFields);
 
             return context.sync();
@@ -103,7 +105,7 @@ require('./function-file/function-file.js');
 
     function createChart() {
         Excel.run(function (context) {
-            
+
             const currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
             const expensesTable = currentWorksheet.tables.getItem('ExpensesTable');
             const dataRange = expensesTable.getDataBodyRange();
@@ -129,7 +131,7 @@ require('./function-file/function-file.js');
 
     function freezeHeader() {
         Excel.run(function (context) {
-            
+
             const currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
             currentWorksheet.freezePanes.freezeRows(1);
 
@@ -149,7 +151,7 @@ require('./function-file/function-file.js');
         Office.context.ui.displayDialogAsync(
             'https://localhost:3000/popup.html',
             {height: 35, width: 25},
-            
+
             function (result) {
                 dialog = result.value;
                 dialog.addEventHandler(Microsoft.Office.WebExtension.EventType.DialogMessageReceived, processMessage);
@@ -162,5 +164,5 @@ require('./function-file/function-file.js');
         $('#user-name').text(arg.message);
         dialog.close();
     }
-  
+
 })();
