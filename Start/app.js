@@ -14,9 +14,10 @@
             // TODO1: Determine if the user's version of Office supports all the
             //        Office.js APIs that are used in the tutorial.
 
-            // TODO2: Assign event handlers and other initializaton logic.
+            // TODO2: Assign event handlers and other initialization logic.
 
         });
+    });
 
     // TODO3: Add handlers and business logic functions here.
 
